@@ -746,3 +746,78 @@ void iniparser_freedict(dictionary * d)
 }
 
 /* vim: set ts=4 et sw=4 tw=75 */
+
+
+/*-------------------------------------------------------------------------*/
+/**
+   The following code is added by Wu Haochen (wuhaochen42 AT gmail DOT com) to 
+   allow querying the dictionary by both section and key.
+   These functions are simply a encapsulation of the functions without 
+   "_by_section" implemented before.
+   Please reference the original functions' comments.
+ */
+/*-------------------------------------------------------------------------*/
+
+/* Internal function to bulid the query string. */
+char * format_combined_key(const char * sec, const char * key) {
+  char * combined ;
+  int length ;
+  
+  /*lculate combined key's length,+1 for the ":".*/
+  length = strlen(sec) + strlen(key) + 1;
+  combined = (char*)malloc(length*sizeof(char));
+
+  strcpy(combined,sec);
+  strcat(combined,":");
+  strcat(combined,key);
+
+  return combined;
+}
+
+char * iniparser_getstring_by_section(
+	   dictionary * d, const char * sec, const char * key, char * def) {
+  char * combined;
+  char * sval;
+
+  combined = format_combined_key(sec,key) ;
+  sval = iniparser_getstring(d,combined,def) ;
+
+  free(combined);
+  return sval;
+}
+
+int iniparser_getint_by_section(
+	   dictionary * d, const char * sec, const char * key, int notfound) {
+  char * combined;
+  int val;
+
+  combined = format_combined_key(sec,key) ;
+  val = iniparser_getint(d,combined,notfound) ;
+
+  free(combined);
+  return val;
+}
+
+double iniparser_getdouble_by_section(
+           dictionary * d, const char * sec, const char * key, double notfound) {
+  char * combined;
+  double val;
+
+  combined = format_combined_key(sec,key) ;
+  val = iniparser_getdouble(d,combined,notfound) ;
+
+  free(combined);
+  return val;
+}
+
+int iniparser_getboolean_by_section(
+           dictionary * d, const char * sec, const char * key, int notfound) {
+  char * combined;
+  int val;
+
+  combined = format_combined_key(sec,key) ;
+  val = iniparser_getboolean(d,combined,notfound) ;
+
+  free(combined);
+  return val;
+}

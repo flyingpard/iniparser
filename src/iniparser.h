@@ -304,4 +304,25 @@ dictionary * iniparser_load(const char * ininame);
 /*--------------------------------------------------------------------------*/
 void iniparser_freedict(dictionary * d);
 
+/*-------------------------------------------------------------------------*/
+/**
+   The following part is added by Wu Haochen (wuhaochen42 AT gmail DOT com) to 
+   allow querying the dictionary by both section and key.
+   These functions are simply a encapsulation of the functions without 
+   "_by_section" implemented before.
+   Please reference the original functions' comments.
+ */
+/*-------------------------------------------------------------------------*/
+
+/* Internal function to bulid the query string. */
+char * format_combined_key(const char * sec, const char * key);
+
+char * iniparser_getstring_by_section(dictionary * d, const char * sec, const char * key, char * def);
+
+int iniparser_getint_by_section(dictionary * d, const char * sec, const char * key, int notfound);
+
+double iniparser_getdouble_by_section(dictionary * d, const char * sec, const char * key, double notfound);
+
+int iniparser_getboolean_by_section(dictionary * d, const char * sec, const char * key, int notfound);
+
 #endif
